@@ -5,7 +5,7 @@ mod filters;
 mod functions;
 #[cfg(feature = "glob_fs")]
 mod globbing;
-mod parsing;
+pub mod parsing;
 mod reporting;
 mod template;
 mod tera;

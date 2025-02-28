@@ -98,7 +98,7 @@ pub(crate) enum Instruction {
 }
 
 #[derive(Clone, PartialEq, Default)]
-pub(crate) struct Chunk {
+pub struct Chunk {
     instructions: Vec<(Instruction, Option<Span>)>,
     /// The template name so we can point to the right place for error messages
     pub name: String,

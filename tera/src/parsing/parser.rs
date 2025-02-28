@@ -91,12 +91,12 @@ impl BodyContext {
 #[derive(Debug, Clone, PartialEq, Default)]
 pub struct ParserOutput {
     // filled when we encounter a {% extends %}
-    pub(crate) parent: Option<String>,
+    pub parent: Option<String>,
     // The AST for the body
-    pub(crate) nodes: Vec<Node>,
-    pub(crate) macro_definitions: Vec<MacroDefinition>,
+    pub nodes: Vec<Node>,
+    pub macro_definitions: Vec<MacroDefinition>,
     // (file, namespace)
-    pub(crate) macro_imports: Vec<(String, String)>,
+    pub macro_imports: Vec<(String, String)>,
 }
 
 pub struct Parser<'a> {
@@ -751,9 +751,7 @@ impl<'a> Parser<'a> {
                 expect_token!(self, Token::TagEnd(..), "%}")?;
                 self.parse_until(|tok| matches!(tok, Token::Ident("endif")))?
             }
-            Some(Ok((Token::Ident("endif"), _))) => {
-                Vec::new()
-            }
+            Some(Ok((Token::Ident("endif"), _))) => Vec::new(),
             Some(Ok((token, _))) => {
                 return Err(Error::syntax_error(
                     format!("Found {token} but was expecting `elif`, `else` or `endif`."),
@@ -1136,7 +1134,7 @@ impl<'a> Parser<'a> {
         Ok(nodes)
     }
 
-    pub(crate) fn parse(mut self) -> TeraResult<ParserOutput> {
+    pub fn parse(mut self) -> TeraResult<ParserOutput> {
         // get the first token
         self.next()?;
         self.output.nodes = self.parse_until(|_| false)?;
